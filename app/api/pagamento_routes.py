@@ -1,4 +1,3 @@
-
 from decimal import Decimal
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -47,7 +46,7 @@ def registrar_pagamento(
     db: Session = Depends(get_db),
     usuario: Usuario = Depends(obter_usuario_atual),
 ):
-    """Registra um pagamento simulado para um pedido confirmado."""
+    """Registra um pagamento simulado aprovado ou recusado."""
 
     metodo = dados.metodo.upper().strip()
 
@@ -88,14 +87,21 @@ def registrar_pagamento(
 
     if pagamento_existente:
         raise HTTPException(
-            status_code=400,
+            status_code=409,
             detail="Esse pedido já possui um pagamento registrado.",
         )
+
+    # Regra determinística para testes acadêmicos:
+    # CARTAO_DEBITO simula recusa da operadora.
+    # Os demais métodos simulam aprovação.
+    status_pagamento = (
+        "RECUSADO" if metodo == "CARTAO_DEBITO" else "APROVADO"
+    )
 
     pagamento = Pagamento(
         pedido_id=pedido.id,
         metodo=metodo,
-        status="APROVADO",
+        status=status_pagamento,
         valor=pedido.valor_total,
     )
 
@@ -108,7 +114,7 @@ def registrar_pagamento(
                 usuario_id=usuario.id,
                 acao="PAGAMENTO_SIMULADO",
                 detalhes=(
-                    f"Pagamento {pagamento.id} aprovado "
+                    f"Pagamento {pagamento.id} {status_pagamento.lower()} "
                     f"para o pedido {pedido.id}. "
                     f"Método: {metodo}. "
                     f"Valor: R$ {pedido.valor_total}."
@@ -135,7 +141,6 @@ def listar_meus_pagamentos(
     usuario: Usuario = Depends(obter_usuario_atual),
 ):
     """Consulta pagamentos dos pedidos do usuário autenticado."""
-
     return (
         db.query(Pagamento)
         .join(Pedido, Pagamento.pedido_id == Pedido.id)
@@ -154,7 +159,6 @@ def listar_todos_pagamentos(
     usuario: Usuario = Depends(exigir_administrador),
 ):
     """Consulta todos os pagamentos. Apenas administradores."""
-
     return (
         db.query(Pagamento)
         .order_by(Pagamento.id.desc())
