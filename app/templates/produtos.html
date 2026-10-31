@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Produtos - Raízes do Nordeste</title>
+
+    <link rel="stylesheet" href="/static/css/painel.css">
+    <link rel="stylesheet" href="/static/css/produtos.css">
+</head>
+
+<body>
+
+<div class="sistema">
+
+    <!-- =====================================
+         MENU LATERAL
+    ====================================== -->
+
+    <aside class="menu-lateral">
+
+        <div class="marca">
+
+            <div class="marca-icone">🌵</div>
+
+            <h2>Raízes do Nordeste</h2>
+
+            <p>Painel Administrativo</p>
+
+        </div>
+
+        <nav class="menu">
+
+            <a href="/painel">
+                🏠 Início
+            </a>
+
+            <a href="/produtos/pagina" class="ativo">
+                🍽️ Produtos
+            </a>
+
+            <a href="#">
+                📦 Estoque
+            </a>
+
+            <a href="#">
+                🧾 Pedidos
+            </a>
+
+            <a href="#">
+                🏷️ Promoções
+            </a>
+
+            <a href="#">
+                ⭐ Fidelidade
+            </a>
+
+            <a href="#">
+                📊 Relatórios
+            </a>
+
+        </nav>
+
+        <div class="menu-rodape">
+
+            <button id="botao-sair" type="button">
+                Sair do sistema
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- =====================================
+         CONTEÚDO PRINCIPAL
+    ====================================== -->
+
+    <main class="conteudo">
+
+        <!-- CABEÇALHO -->
+
+        <header class="cabecalho">
+
+            <div>
+
+                <h1>Gerenciamento de Produtos</h1>
+
+                <p>
+                    Cadastre, consulte e edite os produtos
+                    da lanchonete.
+                </p>
+
+            </div>
+
+            <div class="usuario">
+                👤 Administrador
+            </div>
+
+        </header>
+
+        <!-- =====================================
+             LISTAGEM DE PRODUTOS
+        ====================================== -->
+
+        <section class="informacoes">
+
+            <div class="titulo-produtos">
+
+                <div>
+
+                    <h2>🍽️ Produtos cadastrados</h2>
+
+                    <p>
+                        Lista atualizada diretamente da API.
+                    </p>
+
+                </div>
+
+                <div class="acoes-produtos">
+
+                    <button
+                        id="botao-novo-produto"
+                        class="botao-novo-produto"
+                        type="button">
+
+                        + Novo produto
+
+                    </button>
+
+                    <button
+                        id="botao-atualizar"
+                        class="botao-atualizar"
+                        type="button">
+
+                        Atualizar lista
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================
+                 FORMULÁRIO DE CADASTRO E EDIÇÃO
+            ====================================== -->
+
+            <div id="area-cadastro-produto" hidden>
+
+                <h2 id="titulo-formulario-produto">
+                    ➕ Cadastrar novo produto
+                </h2>
+
+                <p id="descricao-formulario-produto">
+                    Preencha os dados do produto abaixo.
+                </p>
+
+                <form id="form-cadastro-produto">
+
+                    <!-- ID USADO NA EDIÇÃO -->
+
+                    <input
+                        type="hidden"
+                        id="produto-id">
+
+                    <!-- NOME -->
+
+                    <div class="campo-produto">
+
+                        <label for="produto-nome">
+                            Nome do produto
+                        </label>
+
+                        <input
+                            type="text"
+                            id="produto-nome"
+                            name="nome"
+                            placeholder="Ex.: Baião de Dois"
+                            required>
+
+                    </div>
+
+                    <!-- DESCRIÇÃO -->
+
+                    <div class="campo-produto">
+
+                        <label for="produto-descricao">
+                            Descrição
+                        </label>
+
+                        <textarea
+                            id="produto-descricao"
+                            name="descricao"
+                            rows="3"
+                            placeholder="Descreva o produto"></textarea>
+
+                    </div>
+
+                    <!-- CATEGORIA -->
+
+                    <div class="campo-produto">
+
+                        <label for="produto-categoria">
+                            Categoria
+                        </label>
+
+                        <input
+                            type="text"
+                            id="produto-categoria"
+                            name="categoria"
+                            placeholder="Ex.: Comidas Regionais"
+                            required>
+
+                    </div>
+
+                    <!-- PREÇO -->
+
+                    <div class="campo-produto">
+
+                        <label for="produto-preco">
+                            Preço (R$)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="produto-preco"
+                            name="preco"
+                            min="0.01"
+                            step="0.01"
+                            placeholder="Ex.: 20.00"
+                            required>
+
+                    </div>
+
+                    <!-- BOTÕES DO FORMULÁRIO -->
+
+                    <div class="botoes-formulario">
+
+                        <button
+                            type="submit"
+                            id="botao-salvar-produto">
+
+                            Salvar produto
+
+                        </button>
+
+                        <button
+                            type="button"
+                            id="botao-cancelar-produto">
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                    <p
+                        id="mensagem-cadastro-produto"
+                        role="status"
+                        aria-live="polite">
+                    </p>
+
+                </form>
+
+            </div>
+
+            <!-- MENSAGEM DA LISTA -->
+
+            <p
+                id="mensagem-produtos"
+                class="mensagem-produtos"
+                role="status"
+                aria-live="polite">
+
+                Aguardando carregamento...
+
+            </p>
+
+            <!-- =====================================
+                 TABELA DE PRODUTOS
+            ====================================== -->
+
+            <div class="tabela-container">
+
+                <table class="tabela-produtos">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="corpo-tabela-produtos">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- JAVASCRIPT -->
+
+<script src="/static/js/produtos.js"></script>
+
+</body>
+</html>

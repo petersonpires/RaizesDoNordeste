@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Raízes do Nordeste</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <div class="logo">
+                🌵
+            </div>
+
+            <h1>Raízes do Nordeste</h1>
+
+            <p class="subtitulo">
+                Sabores e tradições da nossa terra
+            </p>
+
+            <h2>Bem-vindo!</h2>
+
+            <p class="descricao">
+                Entre com sua conta para acessar o sistema.
+            </p>
+
+            <form id="form-login">
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Digite seu e-mail"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="senha">Senha</label>
+
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="botao-entrar">
+                    Entrar
+                </button>
+
+                <p id="mensagem-login"
+                   class="mensagem-login"
+                   role="status"
+                   aria-live="polite"></p>
+
+            </form>
+
+            <p class="rodape">
+                © 2026 Raízes do Nordeste
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="/static/js/login.js"></script>
+
+</body>
+</html>

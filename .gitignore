@@ -1,0 +1,24 @@
+# Ambiente virtual
+.venv/
+venv/
+
+# Arquivos Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Configurações locais
+.env
+.env.*
+!.env.example
+.idea/
+
+# Banco de dados local
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos temporários
+*.log
+.DS_Store
+Thumbs.db
