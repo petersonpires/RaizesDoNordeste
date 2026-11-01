@@ -196,9 +196,10 @@ def criar_pedido(
             Estoque.produto_id == produto_id,
         ).first()
 
+        # CORREÇÃO: estoque insuficiente retorna HTTP 409
         if not estoque or estoque.quantidade < quantidade:
             raise HTTPException(
-                status_code=400,
+                status_code=409,
                 detail=(
                     f"Estoque insuficiente para {produto.nome}. "
                     f"Quantidade solicitada: {quantidade}."
@@ -371,9 +372,10 @@ def confirmar_pedido(
                 Estoque.produto_id == produto_id,
             ).first()
 
+            # CORREÇÃO: estoque insuficiente retorna HTTP 409
             if not estoque or estoque.quantidade < quantidade:
                 raise HTTPException(
-                    status_code=400,
+                    status_code=409,
                     detail=(
                         "Estoque insuficiente para confirmar "
                         f"o produto ID {produto_id}."
